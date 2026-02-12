@@ -63,3 +63,21 @@ The bot responds to:
 ## Required Discord Bot Intents
 
 - Message Content Intent (enable in the Discord Developer Portal)
+
+## Docker
+
+### Build
+
+```bash
+docker build -t yagi-discord-bot .
+```
+
+### Run
+
+```bash
+docker run -it --rm -e DISCORD_BOT_TOKEN -e YAGI_MODEL -e XXX_API_KEY ghcr.io/mattn/yagi-discord-bot -data /tmp/data/yagi-profiles
+```
+
+- `DISCORD_BOT_TOKEN`: Discord bot token
+- `YAGI_MODEL`: Model to use (e.g. openai/gpt-4.1-nano)
+- `-data /tmp/data/yagi-profiles`: Path to profile data
