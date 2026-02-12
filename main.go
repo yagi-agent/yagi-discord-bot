@@ -287,9 +287,6 @@ func main() {
 		log.Fatal("Discord bot token is required: set DISCORD_BOT_TOKEN or use -token")
 	}
 
-	// Clear the environment variable after reading the token for security
-	os.Setenv("DISCORD_BOT_TOKEN", "")
-
 	if *modelFlag == "" {
 		*modelFlag = "openai/gpt-4.1-nano"
 	}
@@ -310,6 +307,18 @@ func main() {
 	}
 
 	client := provider.NewClient(p, key)
+
+	// Clear all *_API_KEY environment variables for security after they are referenced
+	for _, env := range os.Environ() {
+		if strings.HasSuffix(env, "_API_KEY") {
+			parts := strings.SplitN(env, "=", 2)
+			if len(parts) == 2 {
+				os.Unsetenv(parts[0])
+			}
+		}
+	}
+	// Clear the environment variable after reading the token for security
+	os.Unsetenv("DISCORD_BOT_TOKEN")
 
 	idPath := *identityFile
 	if idPath == "" {
