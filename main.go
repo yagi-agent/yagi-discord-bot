@@ -287,6 +287,9 @@ func main() {
 		log.Fatal("Discord bot token is required: set DISCORD_BOT_TOKEN or use -token")
 	}
 
+	// Clear the environment variable after reading the token for security
+	os.Setenv("DISCORD_BOT_TOKEN", "")
+
 	if *modelFlag == "" {
 		*modelFlag = "openai/gpt-4.1-nano"
 	}
